@@ -1,5 +1,5 @@
-#ifndef COORDENADA_H
-#define COORDENADA_H
+#ifndef COORDENADAS_H
+#define COORDENADAS_H
 
 #include <iostream>
 #include <string>

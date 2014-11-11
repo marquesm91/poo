@@ -1,4 +1,4 @@
-#include "coordenada.h"
+#include "Coordenadas.h"
 
 Coord operator+ (const Coord &c1, const Coord &c2)
 {

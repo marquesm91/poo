@@ -1,5 +1,4 @@
-#include "forma.h"
-#include "coordenada.h"
+#include "Forma.h"
 
 int main()
 {
