@@ -1,49 +1,78 @@
 #include "coordenada.h"
 
-Coordenada operator- (const Coordenada& c1, const Coordenada& c2)
+Coord operator+ (const Coord &c1, const Coord &c2)
 {
-  return Coordenada(c1.x - c2.x, c1.y - c2.y, c1.z - c2.z);
+  return Coord(c1.get<Coord::x>() + c2.get<Coord::x>(), c1.get<Coord::y>() + c2.get<Coord::y>(), c1.get<Coord::z>() + c2.get<Coord::z>());
 }
 
-Coordenada operator+ (const Coordenada& c1, const Coordenada& c2)
+Coord operator- (const Coord &c1, const Coord &c2)
 {
-  return Coordenada(c1.x + c2.x, c1.y + c2.y, c1.z + c2.z);
+  return Coord(c1.get<Coord::x>() - c2.get<Coord::x>(), c1.get<Coord::y>() - c2.get<Coord::y>(), c1.get<Coord::z>() - c2.get<Coord::z>());
 }
 
-Coordenada operator* (const Coordenada&c1, const double& c)
+Coord operator/ (const Coord &c1, const Coord &c2)
 {
-  return Coordenada(c1.x * c, c1.x * c, c1.x * c);
+  return Coord(c1.get<Coord::x>() / c2.get<Coord::x>(), c1.get<Coord::y>() / c2.get<Coord::y>(), c1.get<Coord::z>() / c2.get<Coord::z>());
 }
 
-Coordenada operator* (const double& c, Coordenada &c1)
+Coord operator* (const Coord &c1, double c)
+{
+  return Coord(c1.get<Coord::x>() * c, c1.get<Coord::y>() * c, c1.get<Coord::z>() * c);
+}
+
+Coord operator* (double c, Coord &c1)
 {
   return c1 * c;
 }
 
-Coordenada::Coordenada()
+Coord::Coord()
 {
-  x = 0;
-  y = 0;
-  z = 0;
+  set(0, 0, 0);
 }
 
-Coordenada::Coordenada(const Coordenada &c)
+Coord::Coord(const Coord &c)
 {
-  x = c.x;
-  y = c.y;
-  z = c.z;
+  vec[x] = c.get<x>();
+  vec[y] = c.get<y>();
+  vec[z] = c.get<z>();
 }
 
-Coordenada::Coordenada(double xx = 0, double yy = 0, double zz = 0)
+Coord::Coord(double x = 0, double y = 0, double z = 0)
 {
-  x = xx;
-  y = yy;
-  z = zz;
+  set(x, y, z);
 }
 
-inline void Coordenada::set(double xx = 0, double yy = 0, double zz = 0)
+template<Coord::xyz C> void Coord::set(double v)
 {
-	x = xx;
-	y = yy;
-	z = zz;
+  vec[C] = v;
+}
+
+template<Coord::xyz C> double Coord::get() const
+{
+  return vec[C];
+}
+
+void Coord::set(double xx, double yy, double zz)
+{
+  set<x>(xx);
+  set<y>(yy);
+  set<z>(zz);
+}
+
+const string Coord::print()
+{
+	ostringstream str, xx, yy, zz;
+
+	str.precision(4);
+	xx.precision(4);
+	yy.precision(4);
+	zz.precision(4);
+
+	xx << get<x>();
+	yy << get<y>();
+	zz << get<z>();
+
+	str << "(" << xx.str() << "," << yy.str() << "," << zz.str() << ")";
+
+	return str.str();
 }

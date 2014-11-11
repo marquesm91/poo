@@ -65,8 +65,8 @@ public:
 class linhas : public Forma1D
 {
   const int max_coord;
-  Coordenada a;
-  Coordenada b;
+  Coord a;
+  Coord b;
   coord c[2]; /* coordinates to draw a line */
 public:
   linhas();
