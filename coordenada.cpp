@@ -1,15 +1,13 @@
 #include "coordenada.h"
 
-int Coordenada::counter = 0;
-
-Coordenada Coordenada::operator- (const Coordenada& c)
+Coordenada operator- (const Coordenada& c1, const Coordenada& c2)
 {
-  return Coordenada(this->x - c.x, this->y - c.y, this->z - c.z);
+  return Coordenada(c1.x - c2.x, c1.y - c2.y, c1.z - c2.z);
 }
 
-Coordenada Coordenada::operator+ (const Coordenada& c)
+Coordenada operator+ (const Coordenada& c1, const Coordenada& c2)
 {
-  return Coordenada(this->x + c.x, this->y + c.y, this->z + c.z);
+  return Coordenada(c1.x + c2.x, c1.y + c2.y, c1.z + c2.z);
 }
 
 Coordenada operator* (const Coordenada&c1, const double& c)
@@ -22,14 +20,11 @@ Coordenada operator* (const double& c, Coordenada &c1)
   return c1 * c;
 }
 
-Coordenada::Coordenada(double xx = 0, double yy = 0, double zz = 0)
+Coordenada::Coordenada()
 {
-  x = xx;
-  y = yy;
-  z = zz;
-  counter++;
-  name = "c" + to_string(counter);
-  std::cout << "Create " << name << "\n";
+  x = 0;
+  y = 0;
+  z = 0;
 }
 
 Coordenada::Coordenada(const Coordenada &c)
@@ -37,13 +32,18 @@ Coordenada::Coordenada(const Coordenada &c)
   x = c.x;
   y = c.y;
   z = c.z;
-  name = "copy of " + c.name;
-  std::cout << "Create " << name << "\n";
 }
 
-Coordenada::~Coordenada()
+Coordenada::Coordenada(double xx = 0, double yy = 0, double zz = 0)
 {
-  std::cout << "Destroy " << name << "\n";
-  std::cout << x << " " << y << " " << z << "\n";
-  counter--;
+  x = xx;
+  y = yy;
+  z = zz;
+}
+
+inline void Coordenada::set(double xx = 0, double yy = 0, double zz = 0)
+{
+	x = xx;
+	y = yy;
+	z = zz;
 }

@@ -2,6 +2,6 @@
 
 Made in 16 November, 2014
 
-# Contributors
+## Contributors
 
 Matheus Ferreira Marques

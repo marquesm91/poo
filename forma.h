@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <cstdlib>
+#include "coordenada.h"
 
 using namespace std;
 
@@ -64,6 +65,8 @@ public:
 class linhas : public Forma1D
 {
   const int max_coord;
+  Coordenada a;
+  Coordenada b;
   coord c[2]; /* coordinates to draw a line */
 public:
   linhas();
