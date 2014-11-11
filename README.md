@@ -1,4 +1,4 @@
-# Studing Oriented Objetcs - Analytic Geometry using Polymorphism and Inheritance
+# Studyng Oriented Objetcs - Analytic Geometry using Polymorphism and Inheritance
 
 Made in 16 November, 2014
 

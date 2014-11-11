@@ -1,38 +1,34 @@
-CC=g++
+# Compiler, Flags, Directory Name and Executable Name
+CC= g++
 CFLAGS= -std=c++11
+ODIR= ./Objects
+EXEC1= tp2
 
-all: clean rexec coordenada.o forma.o forma1D.o linha.o circulo.o main.o tp2 clean
+# Source codes and objects
+SRCS= Coordenadas.cpp Forma.cpp Forma1D.cpp Linha.cpp Circulo.cpp main.cpp
+OBJS= $(patsubst %.cpp,$(ODIR)/%.o,$(SRCS))
 
-# Start creating the objects
-main.o: main.cpp
-	$(CC) -c main.cpp $(CFLAGS)
+all: $(EXEC1)
 
-coordenada.o: Coordenadas.cpp Coordenadas.h
-	$(CC) -c Coordenadas.cpp $(CFLAGS)
+# Create paste for Objects
+$(ODIR):
+	@mkdir -p $@
 
-forma.o: Forma.cpp Forma.h
-	$(CC) -c Forma.cpp $(CFLAGS)
+# Concatenate objects with your new directory
+$(OBJS): | $(ODIR)
 
-forma1D.o: Forma1D.cpp Forma1D.h
-	$(CC) -c Forma1D.cpp $(CFLAGS)
+# Special dependencies
+main.o: Forma.h
 
-linha.o: Linha.cpp Linha.h
-	$(CC) -c Linha.cpp $(CFLAGS)
+# Compile and create objects
+$(ODIR)/%.o: %.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
 
-circulo.o: Circulo.cpp Circulo.h
-	$(CC) -c Circulo.cpp $(CFLAGS)
-# End creating the objects
+# Generate the executables
+$(EXEC1): $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@
+	rm -f *.settings
 
-# Start creating the executables	
-tp2:
-	$(CC) $(CFLAGS) -o tp2 Coordenadas.o Forma.o Forma1D.o Linha.o Circulo.o main.o  
-# End creating the executables
-
-# Delete all objects files
+# Delete objects, executables and new directories
 clean:
-	rm -rf *.o
-
-# Delete all executables
-rexec:
-	find . -perm +100 -type f -delete
-
+	rm -rf $(OBJS) $(EXEC1) $(ODIR)
