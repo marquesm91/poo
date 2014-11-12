@@ -21,7 +21,7 @@ private:
 
 	Coord p[2]; /* points to draw the vector director */
   Coord vec_dir; /* vector director */
-  const int total_coord = 2; /* number max of points to define a line */
+  const int max_coord = 2; /* number max of points to define a line */
 };
 
 #endif
