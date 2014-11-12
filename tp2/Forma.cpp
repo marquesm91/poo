@@ -1,14 +1,14 @@
 #include "Forma.h"
 
-ostream &operator <<(ostream &os, const Forma &f)
+ostream &operator <<(ostream &os, Forma &f)
 {
-  f.le(os);
+  f.escreve(os);
   return os;
 }
 
 istream &operator >>(istream &is, Forma &f)
 {
-  f.escreve(is);
+  f.le(is);
   return is;
 }
 

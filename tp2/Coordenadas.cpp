@@ -12,7 +12,23 @@ Coord operator- (const Coord &c1, const Coord &c2)
 
 Coord operator/ (const Coord &c1, const Coord &c2)
 {
-  return Coord(c1.get<Coord::x>() / c2.get<Coord::x>(), c1.get<Coord::y>() / c2.get<Coord::y>(), c1.get<Coord::z>() / c2.get<Coord::z>());
+  double x, y, z;
+  if (c1.get<Coord::x>() == 0)
+    x = 0;
+  else
+    x = c1.get<Coord::x>() / c2.get<Coord::x>();
+
+  if (c1.get<Coord::y>() == 0)
+    y = 0;
+  else
+    y = c1.get<Coord::y>() / c2.get<Coord::y>();
+
+  if (c1.get<Coord::z>() == 0)
+    z = 0;
+  else
+    z = c1.get<Coord::z>() / c2.get<Coord::z>();
+
+  return Coord(x, y, z);
 }
 
 Coord operator* (const Coord &c1, double c)
@@ -61,18 +77,18 @@ void Coord::set(double xx, double yy, double zz)
 
 const string Coord::print()
 {
-	ostringstream str, xx, yy, zz;
+  ostringstream str, xx, yy, zz;
 
-	str.precision(4);
-	xx.precision(4);
-	yy.precision(4);
-	zz.precision(4);
+  str.precision(4);
+  xx.precision(4);
+  yy.precision(4);
+  zz.precision(4);
 
-	xx << get<x>();
-	yy << get<y>();
-	zz << get<z>();
+  xx << get<x>();
+  yy << get<y>();
+  zz << get<z>();
 
-	str << "(" << xx.str() << "," << yy.str() << "," << zz.str() << ")";
+  str << "(" << xx.str() << "," << yy.str() << "," << zz.str() << ")";
 
-	return str.str();
+  return str.str();
 }
