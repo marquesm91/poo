@@ -1,17 +1,17 @@
-#ifndef CIRCULO_H
-#define CIRCULO_H
+#ifndef DISCO_H
+#define DISCO_H
 
-#include "Forma1D.h"
+#include "Forma2D.h"
 #include <iostream>
 #include <string>
 #include <cmath>
 
-class Circulo : public Forma1D
+class Disco : public Forma2D
 {
 public:
-  Circulo(istream &, ostream&);
-  Circulo(const Coord &, double);
-  ~Circulo();
+  Disco(istream &, ostream &);
+  Disco(const Coord &, double);
+  ~Disco();
   const string tipo();
   bool le(istream &);
   void escreve(ostream &);
@@ -19,6 +19,7 @@ public:
   bool move();
   bool pontoNaForma(Coord &);
   bool pontoNaForma(double x, double y, double z);
+  const double area() const;
 
 private:
 	Coord c;

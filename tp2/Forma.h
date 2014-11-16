@@ -4,8 +4,6 @@
 #include "Coordenadas.h" /* Coordenadas contain Forma */
 #include "Error.h"       /* Class for handle errors */
 #include <iostream>
-#include <string>
-#include <cstdlib>
 
 using namespace std;
 
@@ -15,8 +13,8 @@ public:
   virtual ~Forma();
   virtual bool move() = 0;
   virtual void desenha() = 0;
-  virtual double area() const = 0;
-  virtual double volume() const = 0;
+  virtual const double area() const = 0;
+  virtual const double volume() const = 0;
   virtual bool pontoNaForma(Coord &) = 0;
   virtual bool pontoNaForma(double x, double y, double z) = 0;
   virtual const string tipo() = 0;

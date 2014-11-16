@@ -1,6 +1,6 @@
-#include "Circulo.h"
+#include "Disco.h"
 
-Circulo::Circulo(istream &is, ostream &os)
+Disco::Disco(istream &is, ostream &os)
 {
   cout << "[Criando " << tipo() << "]\n";
   cout << "Para que um " << tipo() << " exista, precisamos:\n\n";
@@ -16,20 +16,25 @@ Circulo::Circulo(istream &is, ostream &os)
     escreve(os);
 }
 
-Circulo::Circulo(const Coord &c1, double raio)
+Disco::Disco(const Coord &c1, double raio)
 {
   c = c1;
   r = raio;
 }
 
-Circulo::~Circulo() {}
+Disco::~Disco() {}
 
-const string Circulo::tipo()
+const string Disco::tipo()
 {
-  return "Circulo";
+  return "Disco";
 }
 
-bool Circulo::le(istream &is)
+const double Disco::area() const
+{
+  return M_PI * r * r;
+}
+
+bool Disco::le(istream &is)
 {
   try
   {
@@ -37,7 +42,7 @@ bool Circulo::le(istream &is)
 
     bool find_type = false;
 
-    /* Search for Circulo */
+    /* Search for Disco */
     if (&is != &cin)
     {
       while (getline(is, str))
@@ -65,8 +70,8 @@ bool Circulo::le(istream &is)
 
     if (&is != &cin)
     {
-      cout << "centro do circulo = " << c.print() << endl;
-      cout << "raio do circulo = " << r << endl;
+      cout << "centro do Disco = " << c.print() << endl;
+      cout << "raio do Disco = " << r << endl;
     }
 
     return true;
@@ -78,7 +83,7 @@ bool Circulo::le(istream &is)
   }
 }
 
-void Circulo::escreve(ostream &os)
+void Disco::escreve(ostream &os)
 {
   os << tipo() << "\n";
   os << c.print() << "\n";
@@ -86,14 +91,14 @@ void Circulo::escreve(ostream &os)
   os << "\n";
 }
 
-void Circulo::desenha()
+void Disco::desenha()
 {
   cout << "[Desenhando " << tipo() << "]\n";
   cout << tipo() << " com o centro = " << c.print();
   cout << " e raio = " << r << "\n";
 }
 
-bool Circulo::move()
+bool Disco::move()
 {
   try
   {
@@ -122,7 +127,7 @@ bool Circulo::move()
   }
 }
 
-bool Circulo::pontoNaForma(Coord &c1)
+bool Disco::pontoNaForma(Coord &c1)
 {
   try
   {
@@ -135,8 +140,8 @@ bool Circulo::pontoNaForma(Coord &c1)
     double y_cy = c1.get<Coord::y>() - c.get<Coord::y>();
     double p = sqrt(pow(x_cx, 2) + pow(y_cy, 2));
 
-    if (p != r)
-      throw Error(5);
+    if (p > r)
+      throw Error(9);
 
     return true;
   }
@@ -147,7 +152,7 @@ bool Circulo::pontoNaForma(Coord &c1)
   }
 }
 
-bool Circulo::pontoNaForma(double x, double y, double z)
+bool Disco::pontoNaForma(double x, double y, double z)
 {
   Coord c1(x, y, z);
   return pontoNaForma(c1);

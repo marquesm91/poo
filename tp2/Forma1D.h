@@ -7,8 +7,8 @@ class Forma1D : public Forma
 {
 public:
   virtual ~Forma1D();
-  double area() const;
-  double volume() const;
+  const double area() const;
+  const double volume() const;
 
 protected:
   Forma1D();

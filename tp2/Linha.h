@@ -2,11 +2,14 @@
 #define LINHA_H
 
 #include "Forma1D.h"
+#include <iostream>
+#include <string>
 
 class Linha : public Forma1D
 {
 public:
   Linha(istream &, ostream &);
+  Linha(const Coord &, const Coord &);
   ~Linha();
   const string tipo();
   bool le(istream &);

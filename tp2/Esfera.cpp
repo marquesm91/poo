@@ -1,11 +1,11 @@
-#include "Circulo.h"
+#include "Esfera.h"
 
-Circulo::Circulo(istream &is, ostream &os)
+Esfera::Esfera(istream &is, ostream &os)
 {
   cout << "[Criando " << tipo() << "]\n";
-  cout << "Para que um " << tipo() << " exista, precisamos:\n\n";
+  cout << "Para que uma " << tipo() << " exista, precisamos:\n\n";
   cout << "\t> Coordenadas do centro e um ponto no espaco\n";
-  cout << "\t> Um plano que contem os dois pontos\n\n";
+  cout << "\t> Coordenadas do centro e o valor do raio\n";
   cout << "Logo,\n\n";
     
   while (!le(is));
@@ -16,20 +16,30 @@ Circulo::Circulo(istream &is, ostream &os)
     escreve(os);
 }
 
-Circulo::Circulo(const Coord &c1, double raio)
+Esfera::Esfera(const Coord &c1, double raio)
 {
   c = c1;
   r = raio;
 }
 
-Circulo::~Circulo() {}
+Esfera::~Esfera() {}
 
-const string Circulo::tipo()
+const string Esfera::tipo()
 {
-  return "Circulo";
+  return "Esfera";
 }
 
-bool Circulo::le(istream &is)
+const double Esfera::area() const
+{
+	return 4 * M_PI * r * r;
+}
+
+const double Esfera::volume() const
+{
+return (4 * M_PI * r * r * r) / 3.0;
+}
+
+bool Esfera::le(istream &is)
 {
   try
   {
@@ -37,7 +47,7 @@ bool Circulo::le(istream &is)
 
     bool find_type = false;
 
-    /* Search for Circulo */
+    /* Search for Esfera */
     if (&is != &cin)
     {
       while (getline(is, str))
@@ -65,8 +75,8 @@ bool Circulo::le(istream &is)
 
     if (&is != &cin)
     {
-      cout << "centro do circulo = " << c.print() << endl;
-      cout << "raio do circulo = " << r << endl;
+      cout << "centro do Esfera = " << c.print() << endl;
+      cout << "raio do Esfera = " << r << endl;
     }
 
     return true;
@@ -78,7 +88,7 @@ bool Circulo::le(istream &is)
   }
 }
 
-void Circulo::escreve(ostream &os)
+void Esfera::escreve(ostream &os)
 {
   os << tipo() << "\n";
   os << c.print() << "\n";
@@ -86,14 +96,14 @@ void Circulo::escreve(ostream &os)
   os << "\n";
 }
 
-void Circulo::desenha()
+void Esfera::desenha()
 {
   cout << "[Desenhando " << tipo() << "]\n";
   cout << tipo() << " com o centro = " << c.print();
   cout << " e raio = " << r << "\n";
 }
 
-bool Circulo::move()
+bool Esfera::move()
 {
   try
   {
@@ -122,20 +132,18 @@ bool Circulo::move()
   }
 }
 
-bool Circulo::pontoNaForma(Coord &c1)
+bool Esfera::pontoNaForma(Coord &c1)
 {
   try
   {
-    cout << "[Verficicando se " << c1.print() << " pertence ao " << tipo() << "]\n";
-
-    if (c1.get<Coord::z>() != c.get<Coord::z>())
-      throw Error(5);
+    cout << "[Verficicando se " << c1.print() << " pertence a " << tipo() << "]\n";
 
     double x_cx = c1.get<Coord::x>() - c.get<Coord::x>();
     double y_cy = c1.get<Coord::y>() - c.get<Coord::y>();
-    double p = sqrt(pow(x_cx, 2) + pow(y_cy, 2));
+    double z_cz = c1.get<Coord::z>() - c.get<Coord::z>();
+    double p = sqrt(pow(x_cx, 2) + pow(y_cy, 2) + pow(z_cz, 2));
 
-    if (p != r)
+    if (p > r)
       throw Error(5);
 
     return true;
@@ -147,7 +155,7 @@ bool Circulo::pontoNaForma(Coord &c1)
   }
 }
 
-bool Circulo::pontoNaForma(double x, double y, double z)
+bool Esfera::pontoNaForma(double x, double y, double z)
 {
   Coord c1(x, y, z);
   return pontoNaForma(c1);

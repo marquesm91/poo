@@ -1,17 +1,17 @@
-#ifndef CIRCULO_H
-#define CIRCULO_H
+#ifndef RETANGULO_H
+#define RETANGULO_H
 
-#include "Forma1D.h"
+#include "Forma2D.h"
 #include <iostream>
 #include <string>
 #include <cmath>
 
-class Circulo : public Forma1D
+class Retangulo : public Forma2D
 {
 public:
-  Circulo(istream &, ostream&);
-  Circulo(const Coord &, double);
-  ~Circulo();
+  Retangulo(istream &, ostream &);
+  Retangulo(const Coord &, const Coord &);
+  ~Retangulo();
   const string tipo();
   bool le(istream &);
   void escreve(ostream &);
@@ -19,10 +19,11 @@ public:
   bool move();
   bool pontoNaForma(Coord &);
   bool pontoNaForma(double x, double y, double z);
+  const double area() const;
 
 private:
-	Coord c;
-	double r;
+	Coord p[2];
+	const int max_coord = 2;
 };
 
 #endif

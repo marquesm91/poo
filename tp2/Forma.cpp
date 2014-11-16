@@ -12,6 +12,6 @@ istream &operator >>(istream &is, Forma &f)
   return is;
 }
 
-Forma::Forma(){}
+Forma::Forma() {}
 
-Forma::~Forma(){}
+Forma::~Forma() {}
