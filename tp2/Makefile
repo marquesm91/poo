@@ -5,7 +5,7 @@ ODIR= ./Objects
 EXEC1= tp
 
 # Source codes and objects
-SRCS= Coordenadas.cpp Forma.cpp Forma1D.cpp Linha.cpp Circulo.cpp main.cpp
+SRCS= Coordenadas.cpp Forma.cpp Forma1D.cpp Linha.cpp Circulo.cpp Error.cpp main.cpp
 OBJS= $(patsubst %.cpp,$(ODIR)/%.o,$(SRCS))
 
 all: $(EXEC1)

@@ -17,17 +17,20 @@ public:
   Coord(double, double, double);
   Coord(const Coord &);
 
+  const string print();
+
   template<xyz C> void set(double v);
   template<xyz C> double get() const;
   void set(double xx, double yy, double zz);
-
-  const string print();
+  void set(const Coord&, const Coord&);
 
   friend Coord operator+ (const Coord &, const Coord &);
   friend Coord operator- (const Coord &, const Coord &);
   friend Coord operator/ (const Coord &, const Coord &);
   friend Coord operator* (const Coord &, double);
   friend Coord operator* (double, Coord &);
+  Coord& operator= (const Coord &);
+  bool operator== (const Coord&);
 
 private:
   double vec[z + 1];

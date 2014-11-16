@@ -6,21 +6,18 @@
 class Linha : public Forma1D
 {
 public:
-  Linha(istream &);
+  Linha(istream &, ostream &);
   ~Linha();
   const string tipo();
-  void le(istream &);
+  bool le(istream &);
   void escreve(ostream &);
   void desenha();
-  bool move(const Coord&, int);
-  bool move(const Coord&, const Coord&);
+  bool move(const Coord &, const Coord &);
   bool pontoNaForma(Coord &);
 
 private:
-  /* p1 = p0 + t * vec_dir */
-
 	Coord p[2]; /* points to draw the vector director */
-  Coord vec_dir; /* vector director */
+  Coord v; /* vector director */
   const int max_coord = 2; /* number max of points to define a line */
 };
 

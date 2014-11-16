@@ -12,12 +12,6 @@ istream &operator >>(istream &is, Forma &f)
   return is;
 }
 
-Forma::Forma()
-{
-  cout << "Inside class Forma\n";
-};
+Forma::Forma(){}
 
-Forma::~Forma()
-{
-  cout << "Destrutor Forma\n";
-};
+Forma::~Forma(){}

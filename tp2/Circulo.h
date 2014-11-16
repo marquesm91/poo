@@ -2,17 +2,24 @@
 #define CIRCULO_H
 
 #include "Forma1D.h"
+#include <vector>
 
 class Circulo : public Forma1D
 {
 public:
-  Circulo();
+  Circulo(istream &, ostream&);
   ~Circulo();
-  void le(ostream &os) const;
-  void escreve(istream &is);
+  const string tipo();
+  bool le(istream &);
+  void escreve(ostream &);
+  void desenha();
+  bool move(const Coord &, const Coord &);
+  bool pontoNaForma(Coord &);
 
 private:
-
+	Coord p[2];
+	Coord n;
+	double r;
 };
 
 #endif
