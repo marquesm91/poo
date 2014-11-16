@@ -22,7 +22,6 @@ public:
   template<xyz C> void set(double v);
   template<xyz C> double get() const;
   void set(double xx, double yy, double zz);
-  void set(const Coord&, const Coord&);
 
   friend Coord operator+ (const Coord &, const Coord &);
   friend Coord operator- (const Coord &, const Coord &);

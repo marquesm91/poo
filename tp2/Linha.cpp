@@ -16,7 +16,7 @@ Linha::Linha(istream &is, ostream &os)
   cout << "\nMontando o vetor diretor da reta. (v = pf - pi)\n\n";
   cout << tipo() << " criada com sucesso.\n";
 
-  if(&os != &cout)
+  if (&os != &cout)
     escreve(os);
 }
 
@@ -32,99 +32,116 @@ const string Linha::tipo()
 
 bool Linha::le(istream &is)
 {
-  string str;
-  size_t begin;
-  size_t end;
-  int it;
-  bool find_type = false;
-
-  /* Search for Linha */
-  if (&is != &cin)
+  try
   {
-    while (getline(is, str))
-    {
-      if (str == tipo())
-      {
-        find_type = true;
-        break;
-      }
-    }
+    string str;
+    size_t begin;
+    size_t end;
+    int it;
+    bool find_type = false;
 
-    if (find_type == false)
-      return false;
-  }
-
-  for (int i = 0; i < max_coord; i++)
-  {
-    if (i == 0)
-      cout << "Coordenadas para o ponto inicial = ";
-    if (i == 1)
-      cout << "Coordenadas para o ponto final = ";
-
-    str.clear();
-
-    getline(is, str);
-
-    double point[3] = {0, 0 , 0};
-
-    it = 0;
-    end = 0;
-
-    while (true)
-    {
-      begin = end;
-      if ((end = str.find(" ", begin)) == string::npos)
-      {
-        point[it] = atof((str.substr(begin)).c_str());
-        break;
-      }
-      else
-        point[it] = atof((str.substr(begin, end)).c_str());
-
-      end++;
-      it++;
-    }
-
-    p[i].set(point[0], point[1], point[2]);
-
+    /* Search for Linha */
     if (&is != &cin)
-      cout << p[i].print() << endl;
+    {
+      while (getline(is, str))
+      {
+        if (str == tipo())
+        {
+          find_type = true;
+          break;
+        }
+      }
+
+      if (find_type == false)
+        throw Error(5);
+    }
+
+    for (int i = 0; i < max_coord; i++)
+    {
+      if (i == 0)
+        cout << "Coordenadas para o ponto inicial = ";
+      if (i == 1)
+        cout << "Coordenadas para o ponto final = ";
+
+      str.clear();
+
+      getline(is, str);
+
+      double point[3] = {0, 0 , 0};
+
+      it = 0;
+      end = 0;
+
+      while (true)
+      {
+        begin = end;
+        if ((end = str.find(" ", begin)) == string::npos)
+        {
+          point[it] = atof((str.substr(begin)).c_str());
+          break;
+        }
+        else
+          point[it] = atof((str.substr(begin, end)).c_str());
+
+        end++;
+        it++;
+      }
+
+      p[i].set(point[0], point[1], point[2]);
+
+      if (&is != &cin)
+        cout << p[i].print() << endl;
+    }
+
+    v = p[1] - p[0]; /* Set vector diretor */
+
+    return true;
   }
-
-  v.set(p[1], p[0]); /* Set vector diretor */
-
-  return true;
+  catch (Error &e)
+  {
+    e.what();
+    return false;
+  }
 }
 
 void Linha::escreve(ostream &os)
 {
   os << tipo() << endl;
-
+  
   for (int i = 0; i < max_coord; i++)
     os << p[i].print() << endl;
-
-  os << v.print() << endl;
 }
 
-bool Linha::move(const Coord &c1, const Coord &c2)
+bool Linha::move()
 {
   try
   {
+    cout << "Movendo " << tipo() << "\n\n";
+    double x, y, z;
     Coord *aux = new Coord[2];
+    int it = 0;
 
-    aux[0].set(c1.get<Coord::x>(), c1.get<Coord::y>(), c1.get<Coord::z>());
-    aux[1].set(c2.get<Coord::x>(), c2.get<Coord::y>(), c2.get<Coord::z>());
+    while (it < max_coord)
+    {
+      cout << "Digite as novas coordenadas para o ponto " << it + 1 << "= ";
+      cin >> x >> y >> z;
+      aux[it].set(x, y, z);
+      it++;
+    }
 
     if (aux[1] == aux[0])
       throw Error(3);
 
-    p[0].set(c1.get<Coord::x>(), c1.get<Coord::y>(), c1.get<Coord::z>());
-    p[1].set(c2.get<Coord::x>(), c2.get<Coord::y>(), c2.get<Coord::z>());
-    v.set(p[1], p[0]);
+    p[0] = aux[0];
+    p[1] = aux[1];
+
+    v = p[1] -  p[0];
 
     delete[] aux;
 
-    cout << tipo() << " movida com sucesso.\n";
+    cout << tipo() << " movido com sucesso.\n";
+    desenha();
+
     return true;
   }
   catch (Error &e)
@@ -137,37 +154,45 @@ bool Linha::move(const Coord &c1, const Coord &c2)
 void Linha::desenha()
 {
   cout << tipo() << " com os pontos p0 = " << p[0].print();
-  cout << " e p1 = " << p[1].print();
-  cout << " podemos montar o vetor diretor = " << v.print();
-  cout << " e \"desenhar\" a nossa linha.\n";
+  cout << " , p1 = " << p[1].print();
+  cout << " e v = " << v.print();
+  cout << " sendo os pontos inicial e final e o vetor diretor.\n";
 }
 
 
 bool Linha::pontoNaForma(Coord &c)
 {
-  Coord t = (c - p[0]) / v;
-
-  /* Boolean equation for multiply 't' */
-  bool A_equals_B = (t.get<Coord::x>() == t.get<Coord::y>());
-  bool B_equals_C = (t.get<Coord::y>() == t.get<Coord::z>());
-  bool A_equals_B_equals_C = (A_equals_B && B_equals_C);
-
-  /* Boolean equation for check limits */
-  bool lim_x = ( c.get<Coord::x>() >= p[0].get<Coord::x>() && c.get<Coord::x>() <= p[1].get<Coord::x>());
-  bool lim_y = ( c.get<Coord::y>() >= p[0].get<Coord::y>() && c.get<Coord::y>() <= p[1].get<Coord::y>());
-  bool lim_z = ( c.get<Coord::z>() >= p[0].get<Coord::z>() && c.get<Coord::z>() <= p[1].get<Coord::z>());
-  bool limits = lim_x && lim_y && lim_z;
-
-  if (A_equals_B_equals_C == true && limits == true)
+  try
   {
-    return true;
+    Coord t = (c - p[0]) / v;
+
+    /* Boolean equation for multiply 't' */
+    bool A_equals_B = (t.get<Coord::x>() == t.get<Coord::y>());
+    bool B_equals_C = (t.get<Coord::y>() == t.get<Coord::z>());
+    bool A_equals_B_equals_C = (A_equals_B && B_equals_C);
+
+    /* Boolean equation for check limits */
+    bool lim_x = ( c.get<Coord::x>() >= p[0].get<Coord::x>() && c.get<Coord::x>() <= p[1].get<Coord::x>());
+    bool lim_y = ( c.get<Coord::y>() >= p[0].get<Coord::y>() && c.get<Coord::y>() <= p[1].get<Coord::y>());
+    bool lim_z = ( c.get<Coord::z>() >= p[0].get<Coord::z>() && c.get<Coord::z>() <= p[1].get<Coord::z>());
+    bool limits = lim_x && lim_y && lim_z;
+
+    if (A_equals_B_equals_C == false) /* t has no type t(1,1,1)*/
+      throw Error(5);
+    else if (limits == false) /* Off limits */
+      throw Error(4);
+    else if (A_equals_B_equals_C == true && limits == true)
+      return true;
   }
-  else if (A_equals_B_equals_C == false) /* t has no type t(1,1,1)*/
+  catch (Error &e)
   {
+    e.what();
     return false;
   }
-  else if (limits == false) /* Off limits */
-  {
-    return false;
-  }
+}
+
+bool Linha::pontoNaForma(double x, double y, double z)
+{
+  Coord c1(x, y, z);
+  return pontoNaForma(c1);
 }

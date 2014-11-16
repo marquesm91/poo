@@ -13,11 +13,12 @@ class Forma
 {
 public:
   virtual ~Forma();
-  virtual bool move(const Coord&, const Coord&) = 0;
+  virtual bool move() = 0;
   virtual void desenha() = 0;
   virtual double area() const = 0;
   virtual double volume() const = 0;
   virtual bool pontoNaForma(Coord &) = 0;
+  virtual bool pontoNaForma(double x, double y, double z) = 0;
   virtual const string tipo() = 0;
   virtual bool le(istream &) = 0;
   virtual void escreve(ostream &) = 0;

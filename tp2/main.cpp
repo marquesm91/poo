@@ -14,24 +14,28 @@ void TestingLinha()
 
   Coord c(1, 1, 1);
   Coord c1(2, 2, 2);
-  lin->move(c, c);
-  lin->move(c1, c);
+  lin->move();
+  lin->move();
   lin->desenha();
 
   Coord c3(4, 5, 6);
   if (lin->pontoNaForma(c3))
     cout << "Ponto pertence a forma.\n";
-  else
-    throw Error(4);
 
   delete lin;
 }
 
 void TestingCircle()
 {
-	Forma *circ = new Circulo(cin, cout);
+  Forma *circ = new Circulo(cin, cout);
 
-	delete circ;
+  Coord c1(4, 4, 0);	
+  if (circ->pontoNaForma(4.0, 4.0, 0))
+    cout << "Ponto pertence a forma.\n";
+
+  circ->move();
+
+  delete circ;
 }
 
 int main()

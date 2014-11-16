@@ -1,4 +1,5 @@
 #include "Circulo.h"
+#include <cmath>
 
 Circulo::Circulo(istream &is, ostream &os)
 {
@@ -13,9 +14,9 @@ Circulo::Circulo(istream &is, ostream &os)
   cout << "\t> (cx,cy,cz) : coordenadas do centro\n";
   cout << "\t> (x,y,z) : coordenadas de um ponto\n";
   cout << "\t> Os pontos devem estar contidos em um plano ax + by + cz + d = 0\n\n";
-  cout << "Capturando os pontos inicial e final.\n";
+  cout << "Capturando os pontos necessarios.\n";
   le(is);
-  cout << "\nMontando o vetor diretor da reta. (v = pf - pi)\n\n";
+  cout << "\nDefinindo o raio do circulo pela equacao.\n\n";
   cout << tipo() << " criado com sucesso.\n";
 
   if (&os != &cout)
@@ -24,7 +25,7 @@ Circulo::Circulo(istream &is, ostream &os)
 
 Circulo::~Circulo()
 {
-  cout << "Destrutor Circulo\n";
+  cout << "Destruindo" << tipo() << "\n";
 }
 
 const string Circulo::tipo()
@@ -36,10 +37,10 @@ bool Circulo::le(istream &is)
 {
   try
   {
+
+
     string str;
-    size_t begin;
-    size_t end;
-    int it;
+
     bool find_type = false;
 
     /* Search for Circulo */
@@ -55,9 +56,16 @@ bool Circulo::le(istream &is)
       }
 
       if (find_type == false)
-        throw Error(6);
+        throw Error(5);
     }
 
+    Coord *aux = new Coord[2];
+
+    size_t begin;
+    size_t end;
+    int it;
+
+    /* fill the two aux coordinates */
     for (int i = 0; i < 2; i++)
     {
       if (i == 0)
@@ -89,37 +97,93 @@ bool Circulo::le(istream &is)
         it++;
       }
 
-      p[i].set(point[0], point[1], point[2]);
+      aux[i].set(point[0], point[1], point[2]);
 
       if (&is != &cin)
-        cout << p[i].print() << endl;
+        cout << aux[i].print() << endl;
     }
 
-    n.set(p[1], p[0]); /* Set vector diretor */
+    c = aux[0];
+
+    r = sqrt(pow(aux[1].get<Coord::x>() - c.get<Coord::x>(), 2)
+             + pow(aux[1].get<Coord::y>() - c.get<Coord::y>(), 2));
+
+    delete[] aux;
 
     return true;
   }
-  catch(Error &e)
+  catch (Error &e)
   {
-  	e.what();
-  	return false;
+    e.what();
+    return false;
   }
 }
 
 void Circulo::escreve(ostream &os)
 {
-  // do something
+    os << tipo() << endl;
+    os << c.print() << endl;
+    os << r << endl;
 }
 
 void Circulo::desenha()
 {
-
+  cout << tipo() << " com os pontos c = " << c.print();
+  cout << " e r = " << r << " sendo o centro e raio.\n";
 }
-bool Circulo::move(const Coord &c1, const Coord &c2)
+
+bool Circulo::move()
 {
+  try
+  {
+    double x, y, z;
+    Coord *new_c = new Coord();
 
+    cout << "Digite as novas coordenadas para o centro = ";
+    cin >> x >> y >> z;
+    new_c->set(x, y, z);
+
+    if (*new_c == c)
+      throw Error(3);
+
+    c = *new_c;
+
+    delete[] new_c;
+
+    cout << tipo() << " movida com sucesso.\n";
+    desenha();
+
+    return true;
+  }
+  catch (Error &e)
+  {
+    e.what();
+    return false;
+  }
 }
+
 bool Circulo::pontoNaForma(Coord &c1)
 {
+  try
+  {
+    if (c1.get<Coord::z>() != c.get<Coord::z>())
+      throw Error(4);
 
+    double x_cx = c1.get<Coord::x>() - c.get<Coord::x>();
+    double y_cy = c1.get<Coord::y>() - c.get<Coord::y>();
+    double p = sqrt(pow(x_cx, 2) + pow(y_cy, 2));
+
+    return (p == r);
+  }
+  catch (Error &e)
+  {
+    e.what();
+    return false;
+  }
+}
+
+bool Circulo::pontoNaForma(double x, double y, double z)
+{
+  Coord c1(x, y, z);
+  return pontoNaForma(c1);
 }

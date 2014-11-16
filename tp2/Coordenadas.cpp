@@ -103,13 +103,6 @@ void Coord::set(double xx, double yy, double zz)
   set<z>(zz);
 }
 
-void Coord::set(const Coord &c1, const Coord &c2)
-{
-  vec[x] = c1.get<x>() - c2.get<x>();
-  vec[y] = c1.get<y>() - c2.get<y>();
-  vec[z] = c1.get<z>() - c2.get<z>();
-}
-
 const string Coord::print()
 {
   ostringstream str, xx, yy, zz;

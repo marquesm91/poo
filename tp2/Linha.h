@@ -12,8 +12,9 @@ public:
   bool le(istream &);
   void escreve(ostream &);
   void desenha();
-  bool move(const Coord &, const Coord &);
+  bool move();
   bool pontoNaForma(Coord &);
+  bool pontoNaForma(double x, double y, double z);
 
 private:
 	Coord p[2]; /* points to draw the vector director */
