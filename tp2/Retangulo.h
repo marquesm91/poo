@@ -9,6 +9,7 @@
 class Retangulo : public Forma2D
 {
 public:
+  Retangulo();
   Retangulo(istream &, ostream &);
   Retangulo(const Coord &, const Coord &);
   ~Retangulo();

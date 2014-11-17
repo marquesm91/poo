@@ -7,9 +7,9 @@ Esfera::Esfera(istream &is, ostream &os)
   cout << "\t> Coordenadas do centro e um ponto no espaco\n";
   cout << "\t> Coordenadas do centro e o valor do raio\n";
   cout << "Logo,\n\n";
-    
+
   while (!le(is));
-  
+
   cout << tipo() << " criado com sucesso.\n";
 
   if (&os != &cout)
@@ -22,6 +22,13 @@ Esfera::Esfera(const Coord &c1, double raio)
   r = raio;
 }
 
+Esfera::Esfera()
+{
+  Coord c1(0, 0, 0);
+  c = c1;
+  r = 0;
+}
+
 Esfera::~Esfera() {}
 
 const string Esfera::tipo()
@@ -31,53 +38,24 @@ const string Esfera::tipo()
 
 const double Esfera::area() const
 {
-	return 4 * M_PI * r * r;
+  return 4 * M_PI * r * r;
 }
 
 const double Esfera::volume() const
 {
-return (4 * M_PI * r * r * r) / 3.0;
+  return (4 * M_PI * r * r * r) / 3.0;
 }
 
 bool Esfera::le(istream &is)
 {
   try
   {
-    string str;
-
-    bool find_type = false;
-
-    /* Search for Esfera */
-    if (&is != &cin)
-    {
-      while (getline(is, str))
-      {
-        if (str == tipo())
-        {
-          find_type = true;
-          break;
-        }
-      }
-
-      if (find_type == false)
-        throw Error(5);
-    }
-
     double x, y, z, raio;
 
-    cout << "Digite as coordenadas para o centro = ";
-    cin >> x >> y >> z;
+    is >> x >> y >> z;
     c.set(x, y, z);
-
-    cout << "Digite o valor do raio = ";
-    cin >> raio;
+    is >> raio;
     r = raio;
-
-    if (&is != &cin)
-    {
-      cout << "centro do Esfera = " << c.print() << endl;
-      cout << "raio do Esfera = " << r << endl;
-    }
 
     return true;
   }
@@ -93,7 +71,6 @@ void Esfera::escreve(ostream &os)
   os << tipo() << "\n";
   os << c.print() << "\n";
   os << r << "\n";
-  os << "\n";
 }
 
 void Esfera::desenha()

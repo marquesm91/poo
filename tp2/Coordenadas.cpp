@@ -107,16 +107,11 @@ const string Coord::print()
 {
   ostringstream str, xx, yy, zz;
 
-  str.precision(4);
-  xx.precision(4);
-  yy.precision(4);
-  zz.precision(4);
-
   xx << get<x>();
   yy << get<y>();
   zz << get<z>();
 
-  str << "(" << xx.str() << ", " << yy.str() << ", " << zz.str() << ")";
+  str << xx.str() << " " << yy.str() << " " << zz.str();
 
   return str.str();
 }

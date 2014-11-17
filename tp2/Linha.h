@@ -8,6 +8,7 @@
 class Linha : public Forma1D
 {
 public:
+  Linha();
   Linha(istream &, ostream &);
   Linha(const Coord &, const Coord &);
   ~Linha();

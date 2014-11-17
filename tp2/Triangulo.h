@@ -9,6 +9,7 @@
 class Triangulo : public Forma2D
 {
 public:
+  Triangulo();
   Triangulo(istream &, ostream &);
   Triangulo(const Coord &, const Coord &, const Coord &);
   ~Triangulo();

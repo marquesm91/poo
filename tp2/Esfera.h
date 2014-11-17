@@ -9,6 +9,7 @@
 class Esfera : public Forma3D
 {
 public:
+  Esfera();
   Esfera(istream &, ostream&);
   Esfera(const Coord &, double);
   ~Esfera();

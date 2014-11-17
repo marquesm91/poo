@@ -1,18 +1,18 @@
-#ifndef DISCO_H
-#define DISCO_H
+#ifndef CUBO_H
+#define CUBO_H
 
-#include "Forma2D.h"
+#include "Forma3D.h"
 #include <iostream>
 #include <string>
 #include <cmath>
 
-class Disco : public Forma2D
+class Cubo : public Forma3D
 {
 public:
-  Disco();
-  Disco(istream &, ostream &);
-  Disco(const Coord &, double);
-  ~Disco();
+  Cubo();
+  Cubo(istream &, ostream&);
+  Cubo(const Coord &, double);
+  ~Cubo();
   const string tipo();
   bool le(istream &);
   void escreve(ostream &);
@@ -21,10 +21,11 @@ public:
   bool pontoNaForma(Coord &);
   bool pontoNaForma(double x, double y, double z);
   const double area() const;
+  const double volume() const;
 
 private:
-	Coord c;
-	double r;
+  Coord c;
+  double r;
 };
 
 #endif

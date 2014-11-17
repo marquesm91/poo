@@ -1,11 +1,11 @@
-#include "Circulo.h"
+#include "Cubo.h"
 
-Circulo::Circulo(istream &is, ostream &os)
+Cubo::Cubo(istream &is, ostream &os)
 {
   cout << "[Criando " << tipo() << "]\n";
   cout << "Para que um " << tipo() << " exista, precisamos:\n\n";
-  cout << "\t> Coordenadas do centro e um ponto no espaco\n";
-  cout << "\t> Um plano que contem os dois pontos\n\n";
+  cout << "\t> Um ponto central para o cubo (\"centro\")\n";
+  cout << "\t> A distancia entre todas as extremidades (\"raio\")\n";
   cout << "Logo,\n\n";
 
   while (!le(is));
@@ -16,33 +16,41 @@ Circulo::Circulo(istream &is, ostream &os)
     escreve(os);
 }
 
-
-Circulo::Circulo(const Coord &c1, double raio)
+Cubo::Cubo(const Coord &c1, double raio)
 {
   c = c1;
   r = raio;
 }
 
-Circulo::Circulo()
+Cubo::Cubo()
 {
   Coord c1(0, 0, 0);
   c = c1;
   r = 0;
 }
 
-Circulo::~Circulo() {}
+Cubo::~Cubo() {}
 
-const string Circulo::tipo()
+const string Cubo::tipo()
 {
-  return "Circulo";
+  return "Cubo";
 }
 
-bool Circulo::le(istream &is)
+const double Cubo::area() const
+{
+  return 24  * r * r;
+}
+
+const double Cubo::volume() const
+{
+  return 8 * r * r * r;
+}
+
+bool Cubo::le(istream &is)
 {
   try
   {
     double x, y, z, raio;
-
     is >> x >> y >> z;
     c.set(x, y, z);
     is >> raio;
@@ -57,20 +65,21 @@ bool Circulo::le(istream &is)
   }
 }
 
-void Circulo::escreve(ostream &os)
+void Cubo::escreve(ostream &os)
 {
   os << tipo() << "\n";
   os << c.print() << "\n";
   os << r << "\n";
 }
-void Circulo::desenha()
+
+void Cubo::desenha()
 {
   cout << "[Desenhando " << tipo() << "]\n";
-  cout << tipo() << " com o centro = " << c.print();
-  cout << " e raio = " << r << "\n";
+  cout << tipo() << " com o \"centro\" = " << c.print();
+  cout << " e \"raio\" = " << r << "\n";
 }
 
-bool Circulo::move()
+bool Cubo::move()
 {
   try
   {
@@ -79,7 +88,7 @@ bool Circulo::move()
     double x, y, z;
     Coord *new_c = new Coord();
 
-    cout << "Digite as novas coordenadas para o centro = ";
+    cout << "Digite as novas coordenadas para o \"centro\" = ";
     cin >> x >> y >> z;
     new_c->set(x, y, z);
 
@@ -99,21 +108,18 @@ bool Circulo::move()
   }
 }
 
-bool Circulo::pontoNaForma(Coord &c1)
+bool Cubo::pontoNaForma(Coord &c1)
 {
   try
   {
     cout << "[Verficicando se " << c1.print() << " pertence ao " << tipo() << "]\n";
 
-    if (c1.get<Coord::z>() != c.get<Coord::z>())
-      throw Error(5);
-
-    double x_cx = c1.get<Coord::x>() - c.get<Coord::x>();
-    double y_cy = c1.get<Coord::y>() - c.get<Coord::y>();
-    double p = sqrt(pow(x_cx, 2) + pow(y_cy, 2));
-
-    if (p != r)
-      throw Error(5);
+    if ((c1.get<Coord::x>() < (c.get<Coord::x>() - r)) || (c1.get<Coord::x>() > (c.get<Coord::x>() + r)))
+      throw Error(9);
+    if ((c1.get<Coord::y>() < (c.get<Coord::y>() - r)) || (c1.get<Coord::y>() > (c.get<Coord::y>() + r)))
+      throw Error(9);
+    if ((c1.get<Coord::z>() < (c.get<Coord::z>() - r)) || (c1.get<Coord::z>() > (c.get<Coord::z>() + r)))
+      throw Error(9);
 
     return true;
   }
@@ -124,7 +130,7 @@ bool Circulo::pontoNaForma(Coord &c1)
   }
 }
 
-bool Circulo::pontoNaForma(double x, double y, double z)
+bool Cubo::pontoNaForma(double x, double y, double z)
 {
   Coord c1(x, y, z);
   return pontoNaForma(c1);

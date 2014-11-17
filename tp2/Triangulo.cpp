@@ -22,6 +22,14 @@ Triangulo::Triangulo(const Coord &c1, const Coord &c2, const Coord &c3)
   p[2] = c3;
 }
 
+Triangulo::Triangulo()
+{
+  Coord zero(0, 0, 0);
+  p[0] = zero;
+  p[1] = zero;
+  p[2] = zero;
+}
+
 Triangulo::~Triangulo() {}
 
 const string Triangulo::tipo()
@@ -55,31 +63,11 @@ bool Triangulo::le(istream &is)
 {
   try
   {
-    string str;
-    bool find_type = false;
-
-    /* Search for Triangulo */
-    if (&is != &cin)
-    {
-      while (getline(is, str))
-      {
-        if (str == tipo())
-        {
-          find_type = true;
-          break;
-        }
-      }
-
-      if (find_type == false)
-        throw Error(5);
-    }
-
     double x, y, z;
 
     for (int i = 0; i < max_coord; i++)
     {
-      cout << "Digite as coordenadas para o ponto " << i + 1 << " = ";
-      cin >> x >> y >> z;
+      is >> x >> y >> z;
       p[i].set(x, y, z);
     }
 
@@ -97,13 +85,6 @@ bool Triangulo::le(istream &is)
     else if (colinear_points == true)
       throw Error(7);
 
-    if (&is != &cin)
-    {
-      cout << "primeiro ponto extremo = " << p[0].print() << endl;
-      cout << "segundo ponto extremo = " << p[1].print() << endl;
-      cout << "terceiro ponto extremo = " << p[2].print() << endl;
-    }
-
     return true;
   }
   catch (Error &e)
@@ -119,8 +100,6 @@ void Triangulo::escreve(ostream &os)
 
   for (int i = 0; i < max_coord; i++)
     os << p[i].print() << endl;
-
-  os << "\n";
 }
 
 void Triangulo::desenha()

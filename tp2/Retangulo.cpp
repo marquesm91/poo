@@ -21,6 +21,13 @@ Retangulo::Retangulo(const Coord &c1, const Coord &c2)
   p[1] = c2;
 }
 
+Retangulo::Retangulo()
+{
+  Coord zero(0, 0, 0);
+  p[0] = zero;
+  p[1] = zero;
+}
+
 Retangulo::~Retangulo() {}
 
 const string Retangulo::tipo()
@@ -37,31 +44,11 @@ bool Retangulo::le(istream &is)
 {
   try
   {
-    string str;
-    bool find_type = false;
-
-    /* Search for Retangulo */
-    if (&is != &cin)
-    {
-      while (getline(is, str))
-      {
-        if (str == tipo())
-        {
-          find_type = true;
-          break;
-        }
-      }
-
-      if (find_type == false)
-        throw Error(5);
-    }
-
     double x, y, z;
 
     for (int i = 0; i < max_coord; i++)
     {
-      cout << "Digite as coordenadas para o ponto " << i + 1 << " = ";
-      cin >> x >> y >> z;
+      is >> x >> y >> z;
       p[i].set(x, y, z);
     }
 
@@ -78,12 +65,6 @@ bool Retangulo::le(istream &is)
     else if (p[1].get<Coord::z>() != p[0].get<Coord::z>())
       throw Error(8);
 
-    if (&is != &cin)
-    {
-      cout << "primeiro ponto extremo = " << p[0].print() << endl;
-      cout << "segundo ponto ponto = " << p[1].print() << endl;
-    }
-
     return true;
   }
   catch (Error &e)
@@ -99,8 +80,6 @@ void Retangulo::escreve(ostream &os)
 
   for (int i = 0; i < max_coord; i++)
     os << p[i].print() << endl;
-
-  os << "\n";
 }
 
 void Retangulo::desenha()
@@ -159,7 +138,7 @@ bool Retangulo::pontoNaForma(Coord &c1)
 {
   try
   {
-  	cout << "[Verficicando se " << c1.print() << " pertence ao " << tipo() << "]\n";
+    cout << "[Verficicando se " << c1.print() << " pertence ao " << tipo() << "]\n";
     if (p[1].get<Coord::z>() != c1.get<Coord::z>())
       throw Error(5);
 

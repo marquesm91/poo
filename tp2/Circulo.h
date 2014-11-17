@@ -9,6 +9,7 @@
 class Circulo : public Forma1D
 {
 public:
+  Circulo();
   Circulo(istream &, ostream&);
   Circulo(const Coord &, double);
   ~Circulo();

@@ -6,9 +6,9 @@ Linha::Linha(istream &is, ostream &os)
   cout << "Para que uma " << tipo() << " exista, precisamos:\n\n\t> Dois pontos\n\t";
   cout << "> Um ponto e um vetor diretor\n\n";
   cout << "Logo,\n\n";
-    
+
   while (!le(is));
-  
+
   cout << tipo() << " criada com sucesso.\n";
 
   if (&os != &cout)
@@ -19,6 +19,13 @@ Linha::Linha(const Coord &c1, const Coord &c2)
 {
   p[0] = c1;
   p[1] = c2;
+}
+
+Linha::Linha()
+{
+  Coord zero(0, 0, 0);
+  p[0] = zero;
+  p[1] = zero;
 }
 
 Linha::~Linha() {}
@@ -32,47 +39,18 @@ bool Linha::le(istream &is)
 {
   try
   {
-    string str;
-    bool find_type = false;
-
-    /* Search for Linha */
-    if (&is != &cin)
-    {
-      while (getline(is, str))
-      {
-        if (str == tipo())
-        {
-          find_type = true;
-          break;
-        }
-      }
-
-      if (find_type == false)
-        throw Error(5);
-    }
-
     double x, y, z;
 
     for (int i = 0; i < max_coord; i++)
     {
-      if (i == 0)
-        cout << "Digite as coordenadas para o ponto inicial = ";
-      if (i == 1)
-        cout << "Digite as coordenadas para o ponto final = ";
-      cin >> x >> y >> z;
-
+      is >> x >> y >> z;
       p[i].set(x, y, z);
     }
 
-    cout << "Montando o vetor diretor da reta. (v = pf - pi)\n";
-    v = p[1] - p[0]; /* Set vector diretor */
+    if (p[1] == p[0])
+      throw Error(3);
 
-    if (&is != &cin)
-    {
-      cout << "ponto incial= " << p[0].print() << endl;
-      cout << "ponto final = " << p[1].print() << endl;
-      cout << "vetor diretor = " << v.print() << endl;
-    }
+    v = p[1] - p[0]; /* Set vector diretor */
 
     return true;
   }
@@ -89,8 +67,6 @@ void Linha::escreve(ostream &os)
 
   for (int i = 0; i < max_coord; i++)
     os << p[i].print() << endl;
-
-  os << "\n";
 }
 
 void Linha::desenha()
